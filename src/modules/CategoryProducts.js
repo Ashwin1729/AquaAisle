@@ -22,11 +22,11 @@ const CategoryProducts = () => {
 
   return (
     <>
-      <div class="flex flex-col text-center w-full mt-20">
-        <h2 class="text-xs text-cyanHover tracking-widest font-medium title-font mb-1">
+      <div className="flex flex-col text-center w-full mt-20">
+        <h2 className="text-xs text-cyanHover tracking-widest font-medium title-font mb-1">
           Products
         </h2>
-        <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 capitalize">
+        <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900 capitalize">
           {name}
         </h1>
       </div>

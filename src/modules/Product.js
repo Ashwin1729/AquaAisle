@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Product = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -16,6 +18,36 @@ const Product = () => {
 
     fetchProduct();
   }, []);
+
+  const addToCartHandler = (product, redirect = false) => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productExist = cart.find((item) => item.id === product.id);
+
+    if (productExist) {
+      const updatedCart = cart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } else {
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([...cart, { ...product, quantity: 1 }])
+      );
+    }
+
+    if (redirect) {
+      navigate("/cart");
+    } else {
+      alert("Product added to cart successfully!");
+    }
+  };
 
   if (!Object.keys(product).length > 0) {
     return (
@@ -175,10 +207,16 @@ const Product = () => {
                 ${product?.price}
               </span>
               <div className="flex">
-                <button className="flex ml-auto text-white bg-cyan border-0 py-2 px-6 mr-4 focus:outline-none hover:bg-cyanHover rounded">
+                <button
+                  className="flex ml-auto text-white bg-cyan border-0 py-2 px-6 mr-4 focus:outline-none hover:bg-cyanHover rounded"
+                  onClick={() => addToCartHandler(product, true)}
+                >
                   Buy it now
                 </button>
-                <button className="flex ml-auto border border-cyan py-2 px-6 focus:outline-none hover:bg-cyan hover:text-white rounded">
+                <button
+                  className="flex ml-auto border border-cyan py-2 px-6 focus:outline-none hover:bg-cyan hover:text-white rounded"
+                  onClick={() => addToCartHandler(product)}
+                >
                   Add to cart
                 </button>
               </div>

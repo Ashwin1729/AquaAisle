@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Product from "./modules/Product";
 import AllProducts from "./modules/AllProducts";
 import CategoryProducts from "./modules/CategoryProducts";
+import Cart from "./modules/Cart";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           path="/products/category/:name"
           element={<CategoryProducts />}
         />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="*"
           element={
