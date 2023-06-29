@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Products = ({ products }) => {
+const ProductsCard = ({ products }) => {
   return (
     <section className="text-gray-600 body-font p-10">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap -m-4">
-          {products.map((productData) => {
+          {products?.map((productData) => {
             const { id, category, description, image, price, rating, title } =
               productData;
 
             return (
               <Link
                 to={`/products/${id}`}
-                className="lg:w-1/4 md:w-1/2 p-4 w-full mb-4 hover:shadow-lg cursor-pointer"
+                className="lg:w-1/4 md:w-1/2 p-4 w-full mb-4 hover:shadow-xl cursor-pointer"
                 key={id}
               >
                 <a className="block relative h-48 rounded overflow-hidden">
@@ -41,4 +41,4 @@ const Products = ({ products }) => {
   );
 };
 
-export default Products;
+export default ProductsCard;
