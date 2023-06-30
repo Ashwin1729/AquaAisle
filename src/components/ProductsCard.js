@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { ProductContext } from "../context/ProductContext";
 
-const ProductsCard = ({ products }) => {
+const ProductsCard = ({ type }) => {
+  const productCtx = useContext(ProductContext);
+
+  let products;
+  if (type === "allProducts") {
+    products = productCtx.products;
+  } else if (type === "homeProducts") {
+    products = productCtx.homeProducts;
+  } else if (type === "categoryProducts") {
+    products = productCtx.categoryProducts;
+  }
+
   return (
     <section className="text-gray-600 body-font p-10">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap -m-4">
           {products?.map((productData) => {
-            const { id, category, description, image, price, rating, title } =
-              productData;
+            const { id, category, image, price, title } = productData;
 
             return (
               <Link

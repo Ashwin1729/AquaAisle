@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const Product = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
-
-  const navigate = useNavigate();
+  const cartCtx = useContext(CartContext);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -18,36 +18,6 @@ const Product = () => {
 
     fetchProduct();
   }, []);
-
-  const addToCartHandler = (product, redirect = false) => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const productExist = cart.find((item) => item.id === product.id);
-
-    if (productExist) {
-      const updatedCart = cart.map((item) => {
-        if (item.id === product.id) {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-        }
-        return item;
-      });
-
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([...cart, { ...product, quantity: 1 }])
-      );
-    }
-
-    if (redirect) {
-      navigate("/cart");
-    } else {
-      alert("Product added to cart successfully!");
-    }
-  };
 
   if (!Object.keys(product).length > 0) {
     return (
@@ -131,7 +101,7 @@ const Product = () => {
                 <span className="text-gray-600 ml-3">4 Reviews</span>
               </span>
               <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                <a className="text-gray-500">
+                <a className="text-gray-500" href="#">
                   <svg
                     fill="currentColor"
                     stroke-linecap="round"
@@ -143,7 +113,7 @@ const Product = () => {
                     <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                   </svg>
                 </a>
-                <a className="text-gray-500">
+                <a className="text-gray-500" href="#">
                   <svg
                     fill="currentColor"
                     stroke-linecap="round"
@@ -155,7 +125,7 @@ const Product = () => {
                     <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                   </svg>
                 </a>
-                <a className="text-gray-500">
+                <a className="text-gray-500" href="#">
                   <svg
                     fill="currentColor"
                     stroke-linecap="round"
@@ -209,13 +179,13 @@ const Product = () => {
               <div className="flex">
                 <button
                   className="flex ml-auto text-white bg-cyan border-0 py-2 px-6 mr-4 focus:outline-none hover:bg-cyanHover rounded"
-                  onClick={() => addToCartHandler(product, true)}
+                  onClick={() => cartCtx.addToCartHandler(product, true)}
                 >
                   Buy it now
                 </button>
                 <button
                   className="flex ml-auto border border-cyan py-2 px-6 focus:outline-none hover:bg-cyan hover:text-white rounded"
-                  onClick={() => addToCartHandler(product)}
+                  onClick={() => cartCtx.addToCartHandler(product)}
                 >
                   Add to cart
                 </button>

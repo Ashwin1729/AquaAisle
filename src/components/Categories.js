@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Feature from "../components/Feature";
+import { ProductContext } from "../context/ProductContext";
 
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
+  const productCtx = useContext(ProductContext);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await fetch(
-        `https://fakestoreapi.com/products/categories`
-      );
-      const data = await response.json();
-      console.log(data);
-      setCategories(data);
-    };
-
-    fetchCategories();
-  }, []);
-
-  if (categories.length === 0) {
+  if (productCtx?.categories?.length === 0) {
     return (
       <div className="font-semibold text-center my-40">Loading Data ...</div>
     );
@@ -25,7 +13,7 @@ const Categories = () => {
 
   return (
     <>
-      <Feature cards={categories} />
+      <Feature cards={productCtx.categories} />
     </>
   );
 };

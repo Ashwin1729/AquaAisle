@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import ProductsCard from "../components/ProductsCard";
 import Categories from "../components/Categories";
+import { ProductContext } from "../context/ProductContext";
 
 const AllProducts = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch("https://fakestoreapi.com/products");
-      const data = await response.json();
-      console.log(data);
-      setProducts(data);
-    };
-
-    fetchProducts();
-  }, []);
+  const productCtx = useContext(ProductContext);
 
   return (
     <>
@@ -27,8 +17,8 @@ const AllProducts = () => {
           All Products with Featured Ones
         </h1>
       </div>
-      {products.length > 0 ? (
-        <ProductsCard products={products} />
+      {productCtx?.products?.length > 0 ? (
+        <ProductsCard type="allProducts" />
       ) : (
         <div className="h-screen flex items-center justify-center font-semibold">
           Loading Data ...

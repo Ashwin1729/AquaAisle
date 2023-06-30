@@ -1,53 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const Cart = () => {
-  const navigate = useNavigate();
-  const [total, setTotal] = useState(0);
-  const carts = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartCtx = useContext(CartContext);
 
-  useEffect(() => {
-    const total = carts.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
-    }, 0);
-    setTotal(total);
-  }, [carts]);
-
-  const handleInc = (id) => {
-    const updatedCart = carts.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          quantity: item.quantity + 1,
-        };
-      }
-      return item;
-    });
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    navigate("/cart");
-  };
-
-  const handleDec = (id) => {
-    const updatedCart = carts.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-      }
-      return item;
-    });
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    navigate("/cart");
-  };
-
-  const removeProduct = (id) => {
-    const updatedCart = carts.filter((item) => item.id !== id);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    navigate("/cart");
-  };
-
-  if (carts.length === 0) {
+  if (cartCtx.cart.length === 0) {
     return (
       <div className="h-screen flex items-center justify-center font-semibold">
         Cart is Empty ! Please Explore the products for shopping ...
@@ -61,7 +19,9 @@ const Cart = () => {
         <div className="w-3/4 bg-white px-10 py-10">
           <div className="flex justify-between border-b pb-8">
             <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-            <h2 className="font-semibold text-2xl">{carts?.length} Items</h2>
+            <h2 className="font-semibold text-2xl">
+              {cartCtx.cart?.length} Items
+            </h2>
           </div>
           <div className="flex mt-10 mb-5">
             <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
@@ -77,7 +37,7 @@ const Cart = () => {
               Total
             </h3>
           </div>
-          {carts?.map((cart) => {
+          {cartCtx.cart?.map((cart) => {
             return (
               <div className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
                 <div className="flex w-2/5">
@@ -91,7 +51,7 @@ const Cart = () => {
                     </span>
                     <div
                       className="font-semibold hover:text-red-500 text-gray-500 text-xs cursor-pointer"
-                      onClick={() => removeProduct(cart?.id)}
+                      onClick={() => cartCtx.removeProduct(cart?.id)}
                     >
                       Remove
                     </div>
@@ -101,7 +61,7 @@ const Cart = () => {
                   <svg
                     className="fill-current text-gray-600 w-3 cursor-pointer"
                     viewBox="0 0 448 512"
-                    onClick={() => handleDec(cart?.id)}
+                    onClick={() => cartCtx.handleDec(cart?.id)}
                   >
                     <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                   </svg>
@@ -114,7 +74,7 @@ const Cart = () => {
 
                   <svg
                     className="fill-current text-gray-600 w-3 cursor-pointer"
-                    onClick={() => handleInc(cart?.id)}
+                    onClick={() => cartCtx.handleInc(cart?.id)}
                     viewBox="0 0 448 512"
                   >
                     <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
@@ -150,9 +110,11 @@ const Cart = () => {
           </h1>
           <div className="flex justify-between mt-10 mb-5">
             <span className="font-semibold text-sm uppercase">
-              Items {carts?.length}
+              Items {cartCtx.cart?.length}
             </span>
-            <span className="font-semibold text-sm">${total?.toFixed(2)}</span>
+            <span className="font-semibold text-sm">
+              ${cartCtx.total?.toFixed(2)}
+            </span>
           </div>
           <div>
             <label className="font-medium inline-block mb-3 text-sm uppercase">
@@ -182,7 +144,7 @@ const Cart = () => {
           <div className="border-t mt-8">
             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
               <span>Total cost</span>
-              <span>${(total + 10).toFixed(2)}</span>
+              <span>${(cartCtx.total + 10).toFixed(2)}</span>
             </div>
             <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
               Checkout

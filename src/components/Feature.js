@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Feature = ({ cards = [1, 2, 3] }) => {
+const Feature = ({ cards }) => {
   return (
     <section className="text-gray-600 body-font p-10">
       <div className="container px-5 py-24 mx-auto">
