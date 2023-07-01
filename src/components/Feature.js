@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Feature = ({ cards }) => {
   return (
     <section className="text-gray-600 body-font p-10">
-      <div className="container px-5 py-24 mx-auto">
+      <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <h2 className="text-xs text-cyanHover tracking-widest font-medium title-font mb-1">
             ROOF PARTY POLAROID

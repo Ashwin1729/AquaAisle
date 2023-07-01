@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const navigations = [
   {
@@ -21,6 +22,8 @@ const navigations = [
 ];
 
 const Header = () => {
+  const cartCtx = useContext(CartContext);
+
   return (
     <header className="text-gray-600 body-font shadow-lg px-10">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -35,7 +38,7 @@ const Header = () => {
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            className="w-10 h-10 text-white p-2 bg-cyan rounded-full"
+            className="w-10 h-10 text-white p-2 bg-cyanHover rounded-full"
             viewBox="0 0 24 24"
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -53,9 +56,11 @@ const Header = () => {
         </nav>
         <Link
           to="/cart"
-          className="inline-flex items-center text-white bg-cyan border-0 py-1 px-3 focus:outline-none hover:bg-cyanHover rounded text-base mt-4 md:mt-0"
+          className="inline-flex items-center text-white bg-cyanHover border-0 py-1 px-3 focus:outline-none hover:bg-cyan rounded text-base mt-4 md:mt-0"
         >
-          Cart
+          {cartCtx.cart?.length !== 0
+            ? `Cart ( ${cartCtx.cart?.length} )`
+            : "Cart"}
           <svg
             fill="none"
             stroke="currentColor"

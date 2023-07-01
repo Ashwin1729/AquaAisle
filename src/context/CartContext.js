@@ -50,8 +50,6 @@ const CartContextProvider = (props) => {
 
     if (redirect) {
       navigate("/cart");
-    } else {
-      alert("Product added to cart successfully!");
     }
   };
 

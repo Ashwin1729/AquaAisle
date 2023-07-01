@@ -1,12 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Product = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
   const cartCtx = useContext(CartContext);
+
+  const notify = () =>
+    toast.success("Product added to cart !", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -18,6 +32,11 @@ const Product = () => {
 
     fetchProduct();
   }, []);
+
+  const addToCartHandler = () => {
+    cartCtx.addToCartHandler(product);
+    notify();
+  };
 
   if (!Object.keys(product).length > 0) {
     return (
@@ -60,7 +79,7 @@ const Product = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  className="w-4 h-4 text-cyan"
+                  className="w-4 h-4 text-cyanHover"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -71,7 +90,7 @@ const Product = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  className="w-4 h-4 text-cyan"
+                  className="w-4 h-4 text-cyanHover"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -82,7 +101,7 @@ const Product = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  className="w-4 h-4 text-cyan"
+                  className="w-4 h-4 text-cyanHover"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -93,7 +112,7 @@ const Product = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  className="w-4 h-4 text-cyan"
+                  className="w-4 h-4 text-cyanHover"
                   viewBox="0 0 24 24"
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -145,7 +164,7 @@ const Product = () => {
                 <span className="mr-3">Color</span>
                 <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
                 <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                <button className="border-2 border-gray-300 ml-1 bg-cyan rounded-full w-6 h-6 focus:outline-none"></button>
+                <button className="border-2 border-gray-300 ml-1 bg-cyanHover rounded-full w-6 h-6 focus:outline-none"></button>
               </div>
               <div className="flex ml-6 items-center">
                 <span className="mr-3">Size</span>
@@ -178,17 +197,20 @@ const Product = () => {
               </span>
               <div className="flex">
                 <button
-                  className="flex ml-auto text-white bg-cyan border-0 py-2 px-6 mr-4 focus:outline-none hover:bg-cyanHover rounded"
+                  className="flex ml-auto text-white bg-cyanHover border-0 py-2 px-6 mr-4 focus:outline-none hover:bg-cyan rounded"
                   onClick={() => cartCtx.addToCartHandler(product, true)}
                 >
                   Buy it now
                 </button>
-                <button
-                  className="flex ml-auto border border-cyan py-2 px-6 focus:outline-none hover:bg-cyan hover:text-white rounded"
-                  onClick={() => cartCtx.addToCartHandler(product)}
-                >
-                  Add to cart
-                </button>
+                <div>
+                  <button
+                    className="flex ml-auto border border-cyan py-2 px-6 focus:outline-none hover:bg-cyan hover:text-white rounded"
+                    onClick={addToCartHandler}
+                  >
+                    Add to cart
+                  </button>
+                  <ToastContainer />
+                </div>
               </div>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
