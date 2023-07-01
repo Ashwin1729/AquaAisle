@@ -8,9 +8,13 @@ const Cart = () => {
 
   if (cartCtx.cart.length === 0) {
     return (
-      <div className="h-screen flex items-center justify-center font-semibold">
-        Cart is Empty ! Please Explore the products for shopping ...
-      </div>
+      <Link to="/products">
+        <div className="h-screen flex items-center justify-center">
+          <p className="font-semibold cursor-pointer hover:text-cyanHover">
+            Cart is Empty ! Please Explore the products for shopping ...{" "}
+          </p>
+        </div>
+      </Link>
     );
   }
 
@@ -129,7 +133,9 @@ const Cart = () => {
               Shipping
             </label>
             <select className="block p-2 text-gray-600 w-full text-sm">
-              <option>Standard shipping - $10.00</option>
+              <option>{`Standard shipping - $${
+                cartCtx.total > 0 ? "10.00" : "0.00"
+              }`}</option>
             </select>
           </div>
           <div className="py-10">
@@ -152,7 +158,9 @@ const Cart = () => {
           <div className="border-t mt-8">
             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
               <span>Total cost</span>
-              <span>${(cartCtx.total + 10).toFixed(2)}</span>
+              <span>
+                ${(cartCtx.total > 0 ? cartCtx.total + 10 : 0).toFixed(2)}
+              </span>
             </div>
             <button className="bg-cyanHover font-semibold hover:bg-cyan py-3 text-sm text-white uppercase w-full">
               Checkout

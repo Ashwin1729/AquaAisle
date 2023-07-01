@@ -74,7 +74,7 @@ const CartContextProvider = (props) => {
       if (item.id === id) {
         return {
           ...item,
-          quantity: item.quantity - 1,
+          quantity: item.quantity > 0 ? item.quantity - 1 : 0,
         };
       }
       return item;
