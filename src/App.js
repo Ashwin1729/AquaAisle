@@ -7,6 +7,7 @@ import Product from "./modules/Product";
 import AllProducts from "./modules/AllProducts";
 import CategoryProducts from "./modules/CategoryProducts";
 import Cart from "./modules/Cart";
+import NewPage from "./components/NewPage";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           element={<CategoryProducts />}
         />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<NewPage />} />
+        <Route path="/contact" element={<NewPage />} />
         <Route
           path="*"
           element={

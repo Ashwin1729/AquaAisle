@@ -7,14 +7,28 @@ const Feature = ({ cards }) => {
       <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <h2 className="text-xs text-cyanHover tracking-widest font-medium title-font mb-1">
-            ROOF PARTY POLAROID
+            CATAGORIES
           </h2>
           <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">
-            Master Cleanse Reliac Heirloom
+            Explore Product Categories
           </h1>
         </div>
         <div className="flex flex-wrap -m-4">
           {cards.map((data) => {
+            let categoryDescription;
+            if (data === "electronics") {
+              categoryDescription =
+                "Discover a world of cutting-edge technology with our wide range of electronic products.";
+            } else if (data === "jewelery") {
+              categoryDescription =
+                "Elevate your style with our exquisite collection of jewelry.";
+            } else if (data === "men's clothing") {
+              categoryDescription =
+                "Elevate your wardrobe with our stylish and versatile collection of men's fashion.";
+            } else if (data === "women's clothing") {
+              categoryDescription =
+                "Step into a world of feminine elegance and fashion-forward designs with our stunning collection of women's clothing. ";
+            }
             return (
               <Link
                 to={`/products/category/${data}`}
@@ -41,11 +55,10 @@ const Feature = ({ cards }) => {
                   </div>
                   <div className="flex-grow">
                     <p className="leading-relaxed text-base">
-                      Blue bottle crucifix vinyl post-ironic four dollar toast
-                      vegan taxidermy. Gastropub indxgo juice poutine.
+                      {categoryDescription}
                     </p>
                     <a className="mt-3 text-cyanHover inline-flex items-center">
-                      Learn More
+                      Explore ...
                       <svg
                         fill="none"
                         stroke="currentColor"
